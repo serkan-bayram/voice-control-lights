@@ -68,7 +68,7 @@ def speech_recognizer(l530):
             with speech_recognition.Microphone() as mic:
                 recognizer.adjust_for_ambient_noise(mic) # Setting the ambient noise so it can understand us properly
                 print("I'm listening...")
-                audio = recognizer.listen(mic, phrase_time_limit=5) # We're setting phrase time limit as 5 because this module can stuck in listening sometimes
+                audio = recognizer.listen(mic, phrase_time_limit=5) # We're setting phrase time limit as 5 because this module can stuck in listening time to time
 
                 text = recognizer.recognize_google(audio) # Speech-to-text with Google
 
@@ -92,11 +92,11 @@ def speech_recognizer(l530):
             print(e)
             continue
 
-
+# Create the pyttsx3 object
 engine = tts.init()
 
 def talk(phrase):
-    # Talking stuffs
+    # Talking stuff
     if phrase == "turn off":
         engine.say("I'm turning the lights off.")
     elif phrase == "turn on":

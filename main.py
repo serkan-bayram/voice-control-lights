@@ -113,15 +113,12 @@ def main():
 
     if l530 != False:
         # Building up text to speech module
-        rate = engine.getProperty('rate')
-        # Getting details of current speaking rate
         engine.setProperty('rate', 140) # The speed of talk
         
         voices = engine.getProperty('voices')
         # 1 for male 0 for female
         engine.setProperty('voice', voices[1].id)
 
-        volume = engine.getProperty('volume')
         # Getting to know current volume level (min=0 and max=1)
         engine.setProperty('volume', 0.5)
 

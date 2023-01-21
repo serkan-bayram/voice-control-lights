@@ -1,6 +1,6 @@
 # A Program To Control Your Tapo Lights With Voice Commands
 
-Step 1: Open your Tapo app and click *Me*.
+> Step 1: Open your Tapo app and click *Me*.
 
 <img width="284" alt="image" src="https://user-images.githubusercontent.com/68502470/213877669-8a88f62d-9b0c-4f87-81a6-fdf0749936b5.png">
 

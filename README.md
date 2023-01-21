@@ -4,7 +4,7 @@
 
 > Step 2: Click *Third-Party Services* and click *IFTTT*. Follow the instructions and connect your TAPO account to IFTTT.
 
-![image](https://user-images.githubusercontent.com/68502470/213878594-9625d74c-805d-47bc-b077-c05cfd263f06.png)
+<img width="566" alt="image" src="https://user-images.githubusercontent.com/68502470/213878651-215859e2-01c6-4cc8-9368-04dd1c00ca96.png">
 
 > Step 3: Go to *https://ifttt.com/create*.
 

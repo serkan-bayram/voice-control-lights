@@ -1,73 +1,44 @@
-from PyP100 import PyL530 # PyP100 is a Python library for controlling many of the TP-Link Tapo devices including the P100, P105, P110 plugs and the L530 and L510E bulbs.
+from win10toast import ToastNotifier # Notification module
 
 import speech_recognition # Speech Recognition module
-import pyttsx3 as tts # Text-to-Speech module
 
-import requests
-import time
-import sys
+import requests # API Call
 
-# FUTURE PLANS
-# I will put this code into an arduino and make it work 24/7
+def send_message(message):
+    toast = ToastNotifier()
 
-# Making sure that we have internet connection
+    toast.show_toast(
+        "Light State",
+        message,
+        duration = 5,
+        icon_path = "icon.ico",
+        threaded = True,
+)
+
+
 def check_internet_connection():
     url = "http://www.google.com"
-    timeout = 5
-    while True:
-        try:
-            request = requests.get(url, timeout=timeout)
-            print("Connected to the Internet")
-            return True
-        except (requests.ConnectionError, requests.Timeout) as exception:
-            print("No internet connection.")
+    try:
+        r = requests.get(url)
+        return True
+    except (requests.ConnectionError, requests.Timeout):
+        return False
 
-# Connecting to TAPO servers
-def connect_bulb():
-    # Fetching your TAPO username and password 
-    with open(r"D:\Programming\Github\voice-control-lights\credits.txt", "r") as f:
-        lines = f.readlines()
-        mail = lines[0].strip()
-        password = lines[1].strip()
-
-    # In the tapo app:
-    # Click your device
-    # Click the settings icon
-    # Click the device info
-    ip_address = "192.168.1.2"
-
-    l530 = PyL530.L530(ip_address, mail, password) #Creating a PL530 light bulb object
-
-    # Sometimes connecting doesn't work properly
-    # So we are trying again if there is a error
-    for i in range(5):
-        try:
-            l530.handshake() #Creates the cookies required for further methods
-            l530.login() #Sends credentials to the plug and creates AES Key and IV for further methods
-            return l530 # Returns the bulb object if everything is fine
-        except Exception as e:
-            print(e)
-            time.sleep(5)
-            continue
-    
-    return False # Returns false is it couldn't connect
-
-def turnOff(l530):
-    l530.turnOff() # Sends the turn off request
-
-def turnOn(l530):
-    l530.turnOn() # Sends the turn off request
-
-def speech_recognizer(l530):
+def api_call(key, state):
+    send_message(f"Turning the lights {state}.")
+    requests.get(f"https://maker.ifttt.com/trigger/bulb_{state}/json/with/key/{key}")
+        
+def speech_recognizer(key):
     # Creating recognizer object
     recognizer = speech_recognition.Recognizer()
-
-    while True:
+    while True: 
         try:
             # Starting to listen
             with speech_recognition.Microphone() as mic:
                 recognizer.adjust_for_ambient_noise(mic) # Setting the ambient noise so it can understand us properly
+                
                 print("I'm listening...")
+
                 audio = recognizer.listen(mic, phrase_time_limit=5) # We're setting phrase time limit as 5 because this module can stuck in listening time to time
 
                 text = recognizer.recognize_google(audio) # Speech-to-text with Google
@@ -76,56 +47,21 @@ def speech_recognizer(l530):
 
                 print(f"you said {text}")
 
-                if "turn off" == text:
-                    turnOff(l530)
-                    talk(text) 
-                if "turn on" == text:
-                    turnOn(l530)
-                    talk(text)
-                if "stop" == text:
-                    talk(text)
-                    sys.exit()
-
+                if "turn off" in text or "turn on" in text: 
+                    if check_internet_connection():
+                        api_call(key, "on") if "turn on" in text else api_call(key, "off")
+                        # if "turn on" in text -> api_call(key, "on")
+                        # if "turn off" in text -> api_call(key, "off")
+                        
         except Exception as e:
+            print(e)
             # If there is a error about recognizer object we should create it again
             recognizer = speech_recognition.Recognizer()
-            print(e)
-            continue
-
-# Create the pyttsx3 object
-engine = tts.init()
-
-def talk(phrase):
-    # Talking stuff
-    if phrase == "turn off":
-        engine.say("I'm turning the lights off.")
-    elif phrase == "turn on":
-        engine.say("I'm turning the lights on.")
-    elif phrase == "stop":
-        engine.say("Goodbye!")
-        
-    engine.runAndWait()
 
 def main():
-    check_internet_connection()
+    with open(r"C:\Users\Serkan\Programming\Python\voice-control-lights\key.txt", "r") as f:
+        IFTTT_KEY = f.readline()
 
-    l530 = connect_bulb()
-
-    if l530 != False:
-        # Building up text to speech module
-        engine.setProperty('rate', 140) # The speed of talk
-        
-        voices = engine.getProperty('voices')
-        # 1 for male 0 for female
-        engine.setProperty('voice', voices[1].id)
-
-        # Getting to know current volume level (min=0 and max=1)
-        engine.setProperty('volume', 0.5)
-
-        # Starting to listen
-        speech_recognizer(l530)
-    else:
-        print("There is a problem about connecting to servers.")
+    speech_recognizer(IFTTT_KEY)
 
 main()
-

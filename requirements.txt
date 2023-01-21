@@ -1,0 +1,12 @@
+certifi==2022.12.7
+charset-normalizer==3.0.1
+comtypes==1.1.14
+idna==3.4
+PyAudio==0.2.13
+pypiwin32==223
+pyttsx3==2.90
+pywin32==305
+requests==2.28.2
+SpeechRecognition==3.9.0
+urllib3==1.26.14
+win10toast==0.9

@@ -26,6 +26,7 @@ def check_internet_connection():
 
 def api_call(key, state):
     send_message(f"Turning the lights {state}.")
+    # If you choose your event names differently, you have to change bulb_{state} part as your event name and you have to modify code
     requests.get(f"https://maker.ifttt.com/trigger/bulb_{state}/json/with/key/{key}")
         
 def speech_recognizer(key):

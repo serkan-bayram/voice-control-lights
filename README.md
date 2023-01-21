@@ -2,13 +2,9 @@
 
 > Step 1: Open your Tapo app and click *Me*.
 
-<img width="284" alt="image" src="https://user-images.githubusercontent.com/68502470/213877669-8a88f62d-9b0c-4f87-81a6-fdf0749936b5.png">
-
 > Step 2: Click *Third-Party Services* and click *IFTTT*. Follow the instructions and connect your TAPO account to IFTTT.
 
-![image](https://user-images.githubusercontent.com/68502470/213877686-31945f01-0aab-414d-9ae8-321330e8b3b9.png)
-![image](https://user-images.githubusercontent.com/68502470/213877699-87912a4d-0f4c-4521-8397-b24626d5b5da.png)
-![image](https://user-images.githubusercontent.com/68502470/213877710-efa956d8-c539-4ee6-9d4e-5b746baa743b.png)
+![image](https://user-images.githubusercontent.com/68502470/213878594-9625d74c-805d-47bc-b077-c05cfd263f06.png)
 
 > Step 3: Go to *https://ifttt.com/create*.
 
